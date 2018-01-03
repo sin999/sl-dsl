@@ -17,6 +17,7 @@
         <module>bom</module>
         <module>dslparent</module>
         <module>dpl</module>
+        <module>slgrammar</module>
     </modules>
 
 

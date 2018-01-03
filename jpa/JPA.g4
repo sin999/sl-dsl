@@ -294,7 +294,7 @@ arithmetic_factor
 
 arithmetic_primary
    : state_field_path_expression
-   | numeric_literal
+   |
    | '(' simple_arithmetic_expression ')'
    | input_parameter
    | functions_returning_numerics
@@ -388,7 +388,7 @@ trim_specification
    ;
 
 numeric_literal
-   :
+   : ('-')? NUMERIC
    ;
 
 pattern_value
@@ -436,6 +436,10 @@ collection_valued_association_field
 abstract_schema_name
    :
    ;
+
+NUMERIC
+    : ('0' .. '9')*
+    ;
 
 IDENTIFICATION_VARIABLE
    : ('a' .. 'z' | 'A' .. 'Z' | '_') ('a' .. 'z' | 'A' .. 'Z' | '0' .. '9' | '_')*

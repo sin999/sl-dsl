@@ -9,10 +9,15 @@ import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.TokenStream;
 import org.junit.Before;
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 
 public class VisitorTest {
+
+    private Logger logger = LoggerFactory.getLogger(VisitorTest.class);
+
 
     private InputStream inputStream;
     private Lexer lexer;
@@ -56,7 +61,7 @@ public class VisitorTest {
     public void visitorInvocationTest(){
         visitor = new DplCriteriaBuilderVisitor(null,null);
         String result = visitor.visit(parser.select_statement());
-        System.out.println(result);
+        logger.info(result);
     }
 
 
