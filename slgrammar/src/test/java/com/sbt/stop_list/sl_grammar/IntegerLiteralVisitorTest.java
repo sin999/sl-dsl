@@ -1,13 +1,14 @@
 package com.sbt.stop_list.sl_grammar;
 
+import com.sbt.stop_list.sl_grammar.literal_visitors.IntegerLiteralVisitor;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import static org.junit.Assert.assertEquals;
 
-public class SignetIntegerLiteralsParsingTest extends AbstractParserTest {
-    private Logger logger = LoggerFactory.getLogger(SignetIntegerLiteralsParsingTest.class);
+public class IntegerLiteralVisitorTest extends AbstractVisitorTest {
+    private Logger logger = LoggerFactory.getLogger(IntegerLiteralVisitorTest.class);
     private static final String TEST_INT_NEGATIVE_WITH_UNDERSCORE = "-123_000";
     private static final String TEST_INT_NEGATIVE = "-123";
     private static final String TEST_INT_SIMPLE = "1";
@@ -15,7 +16,6 @@ public class SignetIntegerLiteralsParsingTest extends AbstractParserTest {
 
     @Test
     public void testParsingInt() {
-
         assertEquals("",Integer.valueOf(1),createTestVisitor().visit(getParser(TEST_INT_SIMPLE).integer_literal()));
     }
 
@@ -31,11 +31,6 @@ public class SignetIntegerLiteralsParsingTest extends AbstractParserTest {
     }
 
     private StopListDslVisitor<Integer> createTestVisitor() {
-        return new StopListDslBaseVisitor<Integer>() {
-            @Override
-            public Integer visitInteger_literal(StopListDslParser.Integer_literalContext ctx) {
-                return ParseUtils.parseInteger(ctx.getText());
-            }
-        };
+        return new IntegerLiteralVisitor();
     }
 }

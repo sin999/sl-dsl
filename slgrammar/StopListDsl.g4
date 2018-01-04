@@ -6,9 +6,17 @@ grammar StopListDsl;
 //   | delete_statement
 //   ;
 //
-//select_statement
-//   : select_clause from_clause (where_clause)? (groupby_clause)? (having_clause)? (orderby_clause)?
-//   ;
+select_statement
+   : select_clause  from_clause (where_clause)?
+   ;
+
+select_clause
+    : 'SELECT' IDENTIFIER
+    ;
+
+from_clause
+    : 'FROM' IDENTIFIER IDENTIFIER?
+    ;
 
 where_clause
     : 'WHERE' filter_exprassion
@@ -19,7 +27,7 @@ filter_exprassion
     ;
 
 disjunction_arguments
-   : (conjunction_arguments) ('OR' conjunction_arguments)*
+   : conjunction_arguments ('OR' conjunction_arguments)*
    ;
 
 conjunction_arguments
@@ -32,7 +40,7 @@ negate_exprassion
 
 condition_exprassion
    : simple_cond_expression
-   | '(' disjunction_arguments ')'
+//   | '(' disjunction_arguments ')'
    ;
 
 simple_cond_expression
@@ -49,13 +57,18 @@ simple_cond_expression
 
 comparison_expression
   : string_expression comparison_operator string_expression
-  | IDENTIFIER comparison_operator integer_literal
+  | property_identifier comparison_operator integer_literal
 //  | boolean_expression ('=' | '<>') (boolean_expression | all_or_any_expression)
 //  | enum_expression ('=' | '<>') (enum_expression | all_or_any_expression)
 //  | datetime_expression comparison_operator (datetime_expression | all_or_any_expression)
 //  | entity_expression ('=' | '<>') (entity_expression | all_or_any_expression)
 //  | arithmetic_expression comparison_operator (arithmetic_expression | all_or_any_expression)
   ;
+
+
+property_identifier
+    :   PROPERTY_IDENTIFIER
+    ;
 
 
 comparison_operator
@@ -84,10 +97,10 @@ long_literal
 
 string_literal : STRING_LITERAL ;
 
-date_literal
-    :   DATE_LITERAL
-    |   TIME_LITERAL
-    |   TIMESTAMP_LITERAL
+tmporal_literal
+    :   DATE_LITERAL        #DateLiteral
+    |   TIME_LITERAL        #TimeLiteral
+    |   TIMESTAMP_LITERAL   #TimestampLiteral
     ;
 
 
@@ -108,12 +121,15 @@ DATE_LITERAL : '{d\'' YEAR'-'MONTH_NUMBER'-'DAY_OF_MONTH '\'}';
 //Time - {t'hh:mm:ss'}
 TIME_LITERAL : '{t\'' HOUR_24':'MINUTES':'SECONDS'\'}';
 //Timestamp - {ts'yyyy-mm-dd hh:mm:ss.nnnnnnnnn'} -
-TIMESTAMP_LITERAL : '{ts\'' YEAR'-'MONTH_NUMBER'-'DAY_OF_MONTH HOUR_24':'MINUTES':'SECONDS'.'MICRO_SECONDS'\'}';
+TIMESTAMP_LITERAL : '{ts\'' YEAR'-'MONTH_NUMBER'-'DAY_OF_MONTH ' ' HOUR_24':'MINUTES':'SECONDS'.'MICRO_SECONDS'\'}';
 
 
 // Identifiers
 
 IDENTIFIER:         Letter LetterOrDigit*;
+PROPERTY_IDENTIFIER : SMALL_CHARACTER LetterOrDigit* ('.' SMALL_CHARACTER LetterOrDigit*)+;
+
+fragment SMALL_CHARACTER : [a-z];
 
 fragment YEAR : DIGIT DIGIT DIGIT DIGIT;
 fragment MONTH_NUMBER : ('0'[1-9] | '1'[0-2]);

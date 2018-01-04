@@ -1,5 +1,7 @@
-package com.sbt.stop_list.sl_grammar;
+package com.sbt.stop_list.dsl.dpl;
 
+import com.sbt.stop_list.sl_grammar.StopListDslLexer;
+import com.sbt.stop_list.sl_grammar.StopListDslParser;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.junit.Before;

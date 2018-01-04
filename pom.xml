@@ -13,7 +13,6 @@
 
 
     <modules>
-        <module>jpa</module>
         <module>bom</module>
         <module>dslparent</module>
         <module>dpl</module>

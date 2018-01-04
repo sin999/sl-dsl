@@ -1,10 +1,11 @@
 package com.sbt.stop_list.sl_grammar;
 
+import com.sbt.stop_list.sl_grammar.literal_visitors.StringLiteralVisitor;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
 
-public class StringLiteralParsingTest extends AbstractParserTest {
+public class StringLiteralVisitorTest extends AbstractVisitorTest {
 
     private static final String TEST_STRING = "'Test string'";
 
@@ -15,13 +16,7 @@ public class StringLiteralParsingTest extends AbstractParserTest {
 
 
     private StopListDslVisitor<String> createTestVisitor() {
-        return new StopListDslBaseVisitor<String>() {
-            @Override
-            public String visitString_literal(StopListDslParser.String_literalContext ctx) {
-                return ParseUtils.parseString(ctx.STRING_LITERAL().getText());
-            }
-
-        };
+        return new StringLiteralVisitor();
     }
 
 }
